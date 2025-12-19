@@ -58,6 +58,7 @@ jobs:
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_2063AB385AD648798C71DFC32A6CC006 }}
 
       - name: Deployment Summary
+        if: success()
         run: |
           echo "Deployment completed successfully!"
           echo "App URL: ${{ steps.deploy-to-webapp.outputs.webapp-url }}"
