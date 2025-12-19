@@ -36,13 +36,18 @@ jobs:
   deploy:
     runs-on: windows-latest
     needs: build
-    
+    environment:
+      name: 'Production'
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+    permissions:
+      contents: none
+
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
           name: java-app
-      
+
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
@@ -51,3 +56,9 @@ jobs:
           slot-name: 'Production'
           package: '*.jar'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_2063AB385AD648798C71DFC32A6CC006 }}
+
+      - name: Deployment Summary
+        if: success()
+        run: |
+          echo "Deployment completed successfully!"
+          echo "App URL: ${{ steps.deploy-to-webapp.outputs.webapp-url }}"
