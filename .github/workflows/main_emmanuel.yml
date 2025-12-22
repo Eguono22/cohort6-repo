@@ -4,15 +4,15 @@
 name: Build and deploy ASP.Net Core app to Azure Web App - emmanuel
 
 on:
-  push:
-    branches:
-      - main
+  # push:
+  #   branches: 
+  #     - main
   workflow_dispatch:
 
-jobs:
+jobs: 
   build:
     runs-on: windows-latest
-    permissions:
+    permissions: 
       contents: read #This is required for actions/checkout
 
     steps:
@@ -20,11 +20,11 @@ jobs:
 
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v4
-        with:
+        with: 
           dotnet-version: '9.x'
 
       - name: Build with dotnet
-        run: dotnet build --configuration Release
+        run:  dotnet build --configuration Release
 
       - name: dotnet publish
         run: dotnet publish -c Release -o "${{env.DOTNET_ROOT}}/myapp"
@@ -37,9 +37,9 @@ jobs:
 
   deploy:
     runs-on: windows-latest
-    needs: build
+    needs:  build
     
-    steps:
+    steps: 
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
@@ -52,4 +52,4 @@ jobs:
           app-name: 'emmanuel'
           slot-name: 'Production'
           package: .
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_FADC2CBCEAAF4EE99BBB7C8520B013AF }}
+          publish-profile: ${{ secrets. AZUREAPPSERVICE_PUBLISHPROFILE_FADC2CBCEAAF4EE99BBB7C8520B013AF }}
