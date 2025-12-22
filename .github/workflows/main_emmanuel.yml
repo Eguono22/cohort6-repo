@@ -25,9 +25,11 @@ jobs:
 
       - name: Build with dotnet
         run:  dotnet build --configuration Release
+        working-directory: MyWebApp
 
       - name: dotnet publish
         run: dotnet publish -c Release -o "${{env.DOTNET_ROOT}}/myapp"
+        working-directory: MyWebApp
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
@@ -52,4 +54,4 @@ jobs:
           app-name: 'emmanuel'
           slot-name: 'Production'
           package: .
-          publish-profile: ${{ secrets. AZUREAPPSERVICE_PUBLISHPROFILE_FADC2CBCEAAF4EE99BBB7C8520B013AF }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_FADC2CBCEAAF4EE99BBB7C8520B013AF }}
