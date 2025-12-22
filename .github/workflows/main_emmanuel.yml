@@ -1,7 +1,7 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy JAR app to Azure Web App - emmanuel
+name: Build and deploy ASP.Net Core app to Azure Web App - emmanuel
 
 on:
   push:
@@ -18,47 +18,38 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up Java version
-        uses: actions/setup-java@v4
+      - name: Set up .NET Core
+        uses: actions/setup-dotnet@v4
         with:
-          java-version: '21'
-          distribution: 'microsoft'
+          dotnet-version: '9.x'
 
-      - name: Build with Maven
-        run: mvn clean install
+      - name: Build with dotnet
+        run: dotnet build --configuration Release
+
+      - name: dotnet publish
+        run: dotnet publish -c Release -o "${{env.DOTNET_ROOT}}/myapp"
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
-          name: java-app
-          path: '${{ github.workspace }}/target/*.jar'
+          name: .net-app
+          path: ${{env.DOTNET_ROOT}}/myapp
 
   deploy:
     runs-on: windows-latest
     needs: build
-    environment:
-      name: 'Production'
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
-    permissions:
-      contents: none
-
+    
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
-          name: java-app
-
+          name: .net-app
+      
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
           app-name: 'emmanuel'
           slot-name: 'Production'
-          package: '*.jar'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_2063AB385AD648798C71DFC32A6CC006 }}
-
-      - name: Deployment Summary
-        if: success()
-        run: |
-          echo "Deployment completed successfully!"
-          echo "App URL: ${{ steps.deploy-to-webapp.outputs.webapp-url }}"
+          package: .
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_FADC2CBCEAAF4EE99BBB7C8520B013AF }}
