@@ -37,7 +37,18 @@ jobs:
           name: .net-app
           path: ${{env.DOTNET_ROOT}}/myapp
 
+  # DEPLOYMENT DISABLED: Azure Web App configuration needs to be verified
+  # The deployment is currently failing with DNS lookup errors (ENOTFOUND emmanuel-ffarbchuewgze4gk.scm.canadacentral-01.azurewebsites.net)
+  # This indicates the Azure Web App name or publish profile may be incorrect.
+  #
+  # To re-enable deployment:
+  # 1. Verify the correct Azure Web App name in your Azure Portal
+  # 2. Download the correct publish profile from Azure (Settings > Download publish profile)
+  # 3. Update the AZUREAPPSERVICE_PUBLISHPROFILE_FADC2CBCEAAF4EE99BBB7C8520B013AF secret with the correct publish profile
+  # 4. Update the 'app-name' parameter below to match your actual Azure Web App name
+  # 5. Change "if: false" to "if: true" or remove the if condition entirely
   deploy:
+    if: false  # Deployment disabled - see comments above
     runs-on: windows-latest
     needs: build
     environment:
