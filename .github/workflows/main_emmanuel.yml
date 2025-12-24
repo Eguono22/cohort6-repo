@@ -1,6 +1,3 @@
-# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
-# More GitHub Actions for Azure: https://github.com/Azure/actions
-
 name: Build and deploy ASP.Net Core app to Azure Web App - emmanuel
 
 on:
@@ -13,7 +10,7 @@ jobs:
   build:
     runs-on: windows-latest
     permissions: 
-      contents: read #This is required for actions/checkout
+      contents: read
 
     steps:
       - uses: actions/checkout@v4
@@ -37,30 +34,19 @@ jobs:
           name: .net-app
           path: ${{env.DOTNET_ROOT}}/myapp
 
-  # DEPLOYMENT DISABLED: Azure Web App configuration needs to be verified
-  # The deployment is currently failing with DNS lookup errors (ENOTFOUND emmanuel-ffarbchuewgze4gk.scm.canadacentral-01.azurewebsites.net)
-  # This indicates the Azure Web App name or publish profile may be incorrect.
-  #
-  # To re-enable deployment:
-  # 1. Verify the correct Azure Web App name in your Azure Portal
-  # 2. Download the correct publish profile from Azure (Settings > Download publish profile)
-  # 3. Update the AZUREAPPSERVICE_PUBLISHPROFILE_FADC2CBCEAAF4EE99BBB7C8520B013AF secret with the correct publish profile
-  # 4. Update the 'app-name' parameter below to match your actual Azure Web App name
-  # 5. Change "if: false" to "if: true" or remove the if condition entirely
   deploy:
-    if: false  # Deployment disabled - see comments above
     runs-on: windows-latest
     needs: build
     environment:
       name: 'Production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
-    
+
     steps: 
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
           name: .net-app
-      
+
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
