@@ -1,7 +1,7 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy ASP app to Azure Web App - web-f42simpmtbveq
+name: Build and deploy ASP app to Azure Web App - emmanuel
 
 on:
   push:
@@ -53,4 +53,5 @@ jobs:
           app-name: 'web-f42simpmtbveq'
           slot-name: 'Production'
           package: .
+
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_25CA266ED43E4CB19CD988790904B138 }}
