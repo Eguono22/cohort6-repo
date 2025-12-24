@@ -53,5 +53,5 @@ jobs:
         with:
           app-name: 'web-f42simpmtbveq'
           slot-name: 'Production'
-          package: .
+          package: ${{ github.workspace }}/myapp
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_FADC2CBCEAAF4EE99BBB7C8520B013AF }}
