@@ -28,15 +28,18 @@ jobs:
           }
       - name: Restore NuGet packages
         run: nuget restore MyWebApp/MyWebApp.csproj
+        
       - name: Build and Publish
         run: msbuild MyWebApp/MyWebApp.csproj /nologo /verbosity:m /t:Build /p:DeployOnBuild=true /p:Configuration=Release /p:PublishDir=published
+      
       - name: List published files
-        run: dir .\published
+        run: dir ${{ github.workspace }}\published
+        
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: ASP-app
-          path: ./published
+          path: ${{ github.workspace }}/published
 
   deploy:
     runs-on: windows-latest
