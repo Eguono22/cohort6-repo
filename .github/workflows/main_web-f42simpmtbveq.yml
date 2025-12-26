@@ -25,13 +25,16 @@ jobs:
         run: nuget restore MyWebApp/MyWebApp.csproj
 
       - name: Build and Publish
-        run: msbuild MyWebApp/MyWebApp.csproj /nologo /verbosity:m /t:Build /p:DeployOnBuild=true /p:PublishProfile=FolderProfile /p:PublishDir=published\
+        run: msbuild MyWebApp/MyWebApp.csproj /nologo /verbosity:m /t:Build /p:DeployOnBuild=true /p:PublishProfile=FolderProfile /p:PublishDir=published
+
+      - name: List published files
+        run: dir .\published
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: ASP-app
-          path: ./published/**
+          path: ./published
 
   deploy:
     runs-on: windows-latest
@@ -49,4 +52,4 @@ jobs:
         with:
           app-name: 'web-f42simpmtbveq'
           slot-name: 'Production'
-          package: ./ # If your artifact is a folder, otherwise use the path to your zip or folder
+          package: ./ASP-app # Use the right path if download step puts artifact in subdirectory
