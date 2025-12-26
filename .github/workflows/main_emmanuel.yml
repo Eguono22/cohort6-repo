@@ -34,28 +34,30 @@ jobs:
           name: .net-app
           path: ${{env.DOTNET_ROOT}}/myapp
 
-  deploy:
-    runs-on: windows-latest
-    needs: build
-    environment:
-      name: 'Production'
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+ deploy:
+  runs-on: windows-latest
+  needs: build
+  environment:
+    name: 'Production'
+    url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
-    steps: 
-      - name: Download artifact from build job
-        uses: actions/download-artifact@v4
-        with:
-          name: .net-app
+  steps: 
+    - name: Download artifact from build job
+      uses: actions/download-artifact@v4
+      with:
+        name: .net-app
 
-      - name: Azure Login
-        uses: Azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+    - name: Azure Login
+      uses: Azure/login@v1
+      with:
+        client-id: ${{ secrets.AZURE_CLIENT_ID }}
+        tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+        subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
-      - name: Deploy to Azure Web App
-        id: deploy-to-webapp
-        uses: azure/webapps-deploy@v3
-        with:
-          app-name: 'web-f42simpmtbveq'
-          slot-name: 'Production'
-          package: ${{ github.workspace }}/myapp
+    - name: Deploy to Azure Web App
+      id: deploy-to-webapp
+      uses: azure/webapps-deploy@v3
+      with:
+        app-name: 'web-f42simpmtbveq'
+        slot-name: 'Production'
+        package: ${{ github.workspace }}/myapp
