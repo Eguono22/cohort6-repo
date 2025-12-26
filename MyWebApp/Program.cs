@@ -2,13 +2,13 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(); // Added missing Swagger service registration
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline
-app.UseSwagger(); // Enable middleware to serve generated Swagger as JSON endpoint
-app.UseSwaggerUI(); // Enable middleware to serve Swagger-UI (HTML, JS, CSS, etc.)
+app.UseSwagger();
+app.UseSwaggerUI();
 app.UseHttpsRedirection();
 
 // Define endpoints
