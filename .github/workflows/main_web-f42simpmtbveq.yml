@@ -25,7 +25,7 @@ jobs:
         run: nuget restore MyWebApp/MyWebApp.csproj
 
       - name: Build and Publish
-        run: msbuild MyWebApp/MyWebApp.csproj /nologo /verbosity:m /t:Build /p:DeployOnBuild=true /p:PublishProfile=FolderProfile /p:PublishDir="$(Build.ArtifactStagingDirectory)\published\"
+        run: msbuild MyWebApp/MyWebApp.csproj /nologo /verbosity:m /t:Build /p:DeployOnBuild=true /p:PublishProfile=FolderProfile /p:PublishDir=published\
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
