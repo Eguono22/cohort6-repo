@@ -53,4 +53,5 @@ jobs:
           app-name: 'web-f42simpmtbveq'
           slot-name: 'Production'
           package: ./ # If your artifact is a folder, otherwise use the path to your zip or folder
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_25CA266ED43E4CB19CD988790904B138 }}
+          # publish-profile removed
+
