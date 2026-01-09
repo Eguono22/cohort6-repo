@@ -18,8 +18,7 @@ app.UseHttpsRedirection();
 
 // Define endpoints
 app.MapGet("/", () => "Hello World from ASP.NET Core!")
-    .WithName("GetRoot")
-    .WithOpenApi();
+    .WithName("GetRoot");
 
 app.MapGet("/api/status", () => new
 {
@@ -27,15 +26,13 @@ app.MapGet("/api/status", () => new
     Version = "1.0.0",
     Timestamp = DateTime.UtcNow
 })
-    .WithName("GetStatus")
-    .WithOpenApi();
+    .WithName("GetStatus");
 
 app.MapGet("/api/time", () => new
 {
     ServerTime = DateTime.UtcNow,
     TimeZone = TimeZoneInfo.Local.DisplayName
 })
-    .WithName("GetTime")
-    .WithOpenApi();
+    .WithName("GetTime");
 
 app.Run();
